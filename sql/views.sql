@@ -9,8 +9,13 @@ CREATE VIEW "email_seasonBD" AS (
     WHEN 5 THEN 'spring'
     WHEN 6 THEN 'summer'
     WHEN 7 THEN 'summer'
+    WHEN 8 THEN 'summer'
+    WHEN 9 THEN 'fale'
+    WHEN 10 THEN 'fale'
+    WHEN 11 THEN 'fale'
+    WHEN 12 THEN 'winter'
     END
-  ) AS "season", "birthday","email"
+  ) AS "season", "birthday","email", "id"
   FROM "users"
 ) 
 
@@ -36,11 +41,12 @@ SELECT "es"."season", sum("uoc"."count") AS "sum"
 FROM "email_seasonBD" AS "es"
   JOIN "user_order_count" AS "uoc" ON "es"."id"="uoc"."id"
 GROUP BY "es"."season"
-ORDER BY "sum"
+ORDER BY "sum" DESC
 LIMIT 1
 
 --створити вьюшку в якій буде замовлення і чек замовлення
 
+DROP VIEW IF EXISTS "order_check"
 CREATE VIEW "order_check"  AS (
   SELECT "o".*, sum("p"."price"*"pto"."quantity")
   FROM "orders" AS "o"
